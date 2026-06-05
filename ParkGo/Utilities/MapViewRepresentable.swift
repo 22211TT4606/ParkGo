@@ -94,6 +94,8 @@ struct MapViewRepresentable: UIViewRepresentable {
         Coordinator(self)
     }
     
+    // Thêm @MainActor ở đây để bảo vệ toàn bộ các hàm tương tác UI bên trong
+    @MainActor
     class Coordinator: NSObject, MKMapViewDelegate {
         var parent: MapViewRepresentable
         var lastAppliedCameraPosition: MapCameraPosition?
@@ -176,10 +178,8 @@ struct MapViewRepresentable: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-            // Update visibleRegion in viewModel to allow zoom buttons to work correctly
-            DispatchQueue.main.async {
-                self.parent.viewModel.visibleRegion = mapView.region
-            }
+            // Đã có @MainActor ở cấp độ class nên gán trực tiếp an toàn, không lo bóc tách luồng lỗi nữa
+            self.parent.viewModel.visibleRegion = mapView.region
         }
     }
 }

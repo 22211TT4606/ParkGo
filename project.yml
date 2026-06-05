@@ -1,5 +1,6 @@
 name: ParkGo
 options:
+  objectVersion: 55
   bundleIdPrefix: com.demo
   deploymentTarget:
     iOS: "16.0"
@@ -13,7 +14,7 @@ settings:
 packages:
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk
-    from: 11.0.0
+    from: 10.24.0
 schemes:
   ParkGo:
     build:
@@ -33,6 +34,8 @@ targets:
     deploymentTarget: "16.0"
     sources:
       - path: ParkGo
+      - path: GoogleService-Info.plist
+        type: file
     dependencies:
       - package: Firebase
         product: FirebaseAuth
