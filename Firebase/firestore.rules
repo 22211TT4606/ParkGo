@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return isSignedIn() && userDoc().data.role == "admin";
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow read, update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    match /vehicles/{vehicleId} {
+      allow read: if isOwner(resource.data.userID) || isAdmin();
+      allow create: if isOwner(request.resource.data.userID) || isAdmin();
+      allow update, delete: if isOwner(resource.data.userID) || isAdmin();
+    }
+
+    match /parking_lots/{lotId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /parking_history/{historyId} {
+      allow read: if isOwner(resource.data.userID) || isAdmin();
+      allow create: if isOwner(request.resource.data.userID) || isAdmin();
+      allow update, delete: if isOwner(resource.data.userID) || isAdmin();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.userID == request.auth.uid;
+      allow update, delete: if isSignedIn() &&
+        (resource.data.userID == request.auth.uid || isAdmin());
+    }
+
+    match /favorites/{favoriteId} {
+      allow read: if isOwner(resource.data.userID) || isAdmin();
+      allow create: if isOwner(request.resource.data.userID) || isAdmin();
+      allow update, delete: if isOwner(resource.data.userID) || isAdmin();
+    }
+
+    match /checkins/{checkinId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userID == request.auth.uid;
+      allow update, delete: if isOwner(resource.data.userID) || isAdmin();
+    }
+
+    match /search_history/{historyId} {
+      allow read: if isOwner(resource.data.userID) || isAdmin();
+      allow create: if isOwner(request.resource.data.userID) || isAdmin();
+      allow update, delete: if isOwner(resource.data.userID) || isAdmin();
+    }
+  }
+}

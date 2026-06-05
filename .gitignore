@@ -1,0 +1,63 @@
+# ─── macOS ────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ─── Xcode ────────────────────────────────────────────
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcbkptlist
+*.xccheckout
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace/xcuserdata/
+!*.xcworkspace/contents.xcworkspacedata
+
+# ─── Swift Package Manager ────────────────────────────
+.build/
+.swiftpm/
+*.resolved
+!ParkGo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+# ─── Firebase / Secrets ───────────────────────────────
+GoogleService-Info.plist
+.env
+.env.*
+*.pem
+*.p8
+*.p12
+service-account*.json
+
+# ─── CocoaPods (not used, but safe to include) ────────
+Pods/
+Podfile.lock
+
+# ─── Carthage (not used, but safe to include) ─────────
+Carthage/Build/
+
+# ─── Generated files ──────────────────────────────────
+ParkGo.xcodeproj/
+!ParkGo.xcodeproj/project.xcworkspace/
+!ParkGo.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+!ParkGo.xcodeproj/project.xcworkspace/xcshareddata/
+!ParkGo.xcodeproj/xcshareddata/
+
+# ─── Claude / Cursor AI ──────────────────────────────
+.claude/
+.cursor/
+
+# ─── Logs & temp ──────────────────────────────────────
+*.log
+*.tmp
+*.swp
+*~

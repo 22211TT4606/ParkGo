@@ -1,0 +1,42 @@
+name: ParkGo
+options:
+  bundleIdPrefix: com.demo
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: com.demo.ParkGo
+    SWIFT_VERSION: 5.7
+    DEVELOPMENT_TEAM: ""
+    INFOPLIST_FILE: ParkGo/App/Info.plist
+    SWIFT_ENABLE_EXPLICIT_MODULES: NO
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 11.0.0
+schemes:
+  ParkGo:
+    build:
+      targets:
+        ParkGo: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    archive:
+      config: Release
+
+targets:
+  ParkGo:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: ParkGo
+    dependencies:
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseFirestore
+      - package: Firebase
+        product: FirebaseMessaging
